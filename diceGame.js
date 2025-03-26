@@ -17,17 +17,16 @@ let round = 1;
 let rolls = 0; 
 
 const rollDice = () => {
-    diceValuesArr = []; //everytime clears array when the btn is pressed, making sure its empty before submiting new results.
-      for (let i = 0; i < 5; i++) { //loops 5 times trought the function
-      const randomDie = Math.floor(Math.random() * 6) +1; //the function
-      diceValuesArr.push(randomDie);    // Add each roll to the array
+    diceValuesArr = [];
+      
+    for (let i = 0; i < 5; i++) { 
+      const randomDie = Math.floor(Math.random() * 6) +1; 
+      diceValuesArr.push(randomDie); 
       }
-      for (let i = 0; i < diceValuesArr.length; i++) {  //loops again through all results
-      listOfAllDice[i].textContent = diceValuesArr[i]; //placing results in matching containers
+
+    for (let i = 0; i < diceValuesArr.length; i++) { 
+      listOfAllDice[i].textContent = diceValuesArr[i]; 
       }
-      //or
-      //listOfAllDice.forEach((dice, index) => {
-    //dice.textContent = diceValuesArr[index];
 }
 
 const updateStats = () => {
@@ -41,39 +40,35 @@ const updateRadioOption = (index, score) => {
   scoreSpans[index].textContent = `, score = ${score}`;
 };
 
-const getHighestDuplicates = () => {
+const getHighestDuplicates = (diceValuesArr) => {
   const counts = {};
+
   diceValuesArr.forEach(element => {
     counts[element] = (counts[element] || 0) + 1;
   });
-  console.log("Counts:", counts);
 
-  if (counts[n] >= 4) {
-    score = diceValuesArr.forEach(() => {
-    sum += n;
-  });
-    updateRadioOption(1, score);
+  const sumOfDice = diceValuesArr.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 
-  } 
-
-  if (countedTimes >= 3) {
-    score = diceValuesArr.forEach((num) => {
-    sum += num;
-  });
-    updateRadioOption(0, score);
+  if (Object.values(counts).some(count => count >= 4)) {
+    updateRadioOption(1, sumOfDice);
+  }
+  
+  if (Object.values(counts).some(count => count >= 3)) {
+    updateRadioOption(0, sumOfDice);
   }
 
-  if (countedTimes < 3) {
-    updateRadioOption(5, 0);
-  }
+  updateRadioOption(5, 0);
 }
+
 
 rollDiceBtn.addEventListener("click", () => {
     if (rolls === 3) {                          //rollDiceBtn pressed 3 times
-        alert("You must select a score!");
+        alert("You must select a score.");
       } else {
-        rollDice();
         rolls++;
+        rollDice();
+        updateStats();
+        getHighestDuplicates(diceValuesArr);
       }
 });
 
