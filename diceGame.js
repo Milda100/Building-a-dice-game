@@ -20,8 +20,8 @@ const rollDice = () => {
     diceValuesArr = [];
       
     for (let i = 0; i < 5; i++) { 
-      const randomDie = Math.floor(Math.random() * 6) +1; 
-      diceValuesArr.push(randomDie); 
+      const randomDie = Math.floor(Math.random() * 6) +1;
+      diceValuesArr.push(randomDie);
       }
 
     for (let i = 0; i < diceValuesArr.length; i++) { 
@@ -35,10 +35,16 @@ const updateStats = () => {
 }
 
 const updateRadioOption = (index, score) => {
-  scoreInputs[index].disabled = false;  //input field becomes enabled and interactive
+  scoreInputs[index].disabled = false;
   scoreInputs[index].value = score;
   scoreSpans[index].textContent = `, score = ${score}`;
 };
+
+const updateScore = (selectedValue, achieved) => {
+  score += parseInt(selectedValue);
+  totalScoreElement.textContent = score;
+  scoreHistory.innerHTML += `<li>${achieved} : ${selectedValue}</li>`; 
+  }
 
 const getHighestDuplicates = (diceValuesArr) => {
   const counts = {};
@@ -48,11 +54,11 @@ const getHighestDuplicates = (diceValuesArr) => {
   });
 
   const sumOfDice = diceValuesArr.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-
+    
   if (Object.values(counts).some(count => count >= 4)) {
     updateRadioOption(1, sumOfDice);
   }
-  
+
   if (Object.values(counts).some(count => count >= 3)) {
     updateRadioOption(0, sumOfDice);
   }
@@ -72,7 +78,7 @@ const resetRadioOptions = () => {
 };
 
 rollDiceBtn.addEventListener("click", () => {
-    if (rolls === 3) {                          //rollDiceBtn pressed 3 times
+    if (rolls === 3) {
         alert("You must select a score.");
       } else {
         rolls++;
