@@ -60,6 +60,16 @@ const getHighestDuplicates = (diceValuesArr) => {
   updateRadioOption(5, 0);
 }
 
+const resetRadioOptions = () => {
+  scoreInputs.forEach((input) => {
+    input.disabled = true;
+    input.checked = false;
+  });
+
+  scoreSpans.forEach((span) => {
+    span.textContent = "";
+  });
+};
 
 rollDiceBtn.addEventListener("click", () => {
     if (rolls === 3) {                          //rollDiceBtn pressed 3 times
